@@ -11,6 +11,51 @@ const Comment = require('../models/comment');
 const User = require('../models/user');
 const Post = require('../models/post');
 
+// create web server
+// http://localhost:3000/comments
+router.get('/', (req, res) => {
+  Comment.find({}, (err, comments) => {
+    if (err) return console.log(err);
+    res.json(comments);
+  });
+});
+
+// Create web server
+// http://localhost:3000/comments
+router.post('/', (req, res) => {
+  Comment.create(req.body, (err, comment) => {
+    if (err) return console.log(err);
+    res.json(comment);
+  });
+});
+
+// Create web server
+// http://localhost:3000/comments/1
+router.get('/:id', (req, res) => {
+  Comment.findById(req.params.id, (err, comment) => {
+    if (err) return console.log(err);
+    res.json(comment);
+  });
+});
+
+// Create web server
+// http://localhost:3000/comments/1
+router.put('/:id', (req, res) => {
+  Comment.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, comment) => {
+    if (err) return console.log(err);
+    res.json(comment);
+  });
+});
+
+// Create web server
+// http://localhost:3000/comments/1
+router.delete('/:id', (req, res) => {
+  Comment.findByIdAndRemove(req.params.id, (err, comment) => {
+    if (err) return console.log(err);
+    res.json(comment);
+  });
+});
+
 // Create web browser
 // http://localhost:3000/comments
 router.get('/', (req, res) => {
@@ -34,15 +79,3 @@ router.get('/:id', (req, res) => {
     res.render('comments/show', {comment});
   });
 });
-
-// Create web browser
-// http://localhost:3000/comments/1/edit
-router.get('/:id/edit', (req, res) => {
-  Comment.findById(req.params.id, (err, comment) => {
-    if (err) return console.log(err);
-    res.render('comments/edit', {comment});
-  });
-});
-
-
-
